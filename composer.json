@@ -1,0 +1,21 @@
+{
+  "name": "slick/json-api-bundle",
+  "description": "Adds JSONAPI.org encoders and decoders to an Symfony apps",
+  "type": "symfony-bundle",
+  "require": {
+    "php": ">=8.1",
+    "symfony/framework-bundle": "^6.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "Slick\\JsonApiBundle\\": "src/"
+    }
+  },
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Filipe Silva",
+      "email": "silvam.filipe@gmail.com"
+    }
+  ]
+}
