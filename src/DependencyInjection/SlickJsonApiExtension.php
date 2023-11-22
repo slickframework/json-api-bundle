@@ -36,7 +36,7 @@ final class SlickJsonApiExtension extends Extension
         $loader = new YamlFileLoader($container, new FileLocator(dirname(__DIR__, 2).'/config'));
         $loader->load('services.yaml');
 
-        $container->setParameter('json-api.version', $config['version']);
-        $container->setParameter('json-api.server', $config['server-url']);
+        $container->setParameter('json_api.version', $config['version']);
+        $container->setParameter('json_api.server_url', $config['server_url']);
     }
 }
