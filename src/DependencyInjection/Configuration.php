@@ -27,7 +27,7 @@ final class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder('json-api');
+        $treeBuilder = new TreeBuilder('json_api');
 
         $treeBuilder->getRootNode()
             ->children()
@@ -35,7 +35,7 @@ final class Configuration implements ConfigurationInterface
                     ->info('The version set on JSON API document. See https://jsonapi.org/format/#document-jsonapi-object')
                     ->defaultValue('1.1')
                 ->end()
-                ->scalarNode('server-url')
+                ->scalarNode('server_url')
                     ->info("The server name used in all links exposed in the JSON API document.")
                     ->defaultValue('http://localhost')
                 ->end()

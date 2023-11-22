@@ -16,7 +16,7 @@ services:
   json-api.version:
     class: Slick\JSONAPI\JsonApi
     arguments:
-      - '%json-api.version%'
+      - '%json_api.version%'
 
   json-api.schema.discover:
     class: Slick\JSONAPI\Object\SchemaDiscover\AttributeSchemaDiscover
@@ -34,7 +34,7 @@ services:
           - '@json-api.version'
       - method: withLinkPrefix
         arguments:
-          - '%json-api.server%'
+          - '%json_api.server_url%'
   Slick\JSONAPI\Document\DocumentEncoder: '@json-api.document.encoder'
 
 
