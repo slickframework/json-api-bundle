@@ -1,0 +1,71 @@
+
+services:
+  # JSON API services.
+  json-api.document.converter:
+    class: Slick\JSONAPI\Document\Converter\PHPJson
+  Slick\JSONAPI\Document\Converter\PHPJson: '@json-api.document.converter'
+
+  json-api.schema.validator:
+    class: Slick\JSONAPI\Validator\SchemaValidator
+  Slick\JSONAPI\Validator\SchemaValidator: '@json-api.schema.validator'
+
+  json-api.document.factory:
+    class: Slick\JSONAPI\Document\Factory\DefaultFactory
+  Slick\JSONAPI\Document\DocumentFactory: '@json-api.document.factory'
+
+  json-api.version:
+    class: Slick\JSONAPI\JsonApi
+    arguments:
+      - '%json-api.version%'
+
+  json-api.schema.discover:
+    class: Slick\JSONAPI\Object\SchemaDiscover\AttributeSchemaDiscover
+  Slick\JSONAPI\Object\SchemaDiscover: '@json-api.schema.discover'
+
+  json-api.document.encoder:
+    class: Slick\JSONAPI\Document\Encoder\DefaultEncoder
+    arguments:
+      - '@json-api.schema.discover'
+      - '@json-api.document.factory'
+      - '@json-api.document.converter'
+    calls:
+      - method: withJsonapi
+        arguments:
+          - '@json-api.version'
+      - method: withLinkPrefix
+        arguments:
+          - '%json-api.server%'
+  Slick\JSONAPI\Document\DocumentEncoder: '@json-api.document.encoder'
+
+
+
+  json-api.document.http.message.parser:
+    class: Slick\JSONAPI\Document\HttpMessageParser
+
+  Slick\JSONAPI\Document\HttpMessageParserInterface: '@json-api.document.http.message.parser'
+
+
+  json-api.document.decoder:
+    class: Slick\JSONAPI\Document\Decoder\DefaultDecoder
+    arguments:
+      - '@json-api.schema.discover'
+      - '@json-api.schema.validator'
+  Slick\JSONAPI\Document\DocumentDecoder: '@json-api.document.decoder'
+
+  nyholm.psr7.factory:
+    class: Nyholm\Psr7\Factory\Psr17Factory
+
+  json-api.factory.psr_http:
+    class: Symfony\Bridge\PsrHttpMessage\Factory\PsrHttpFactory
+    arguments:
+      [ '@nyholm.psr7.factory', '@nyholm.psr7.factory', '@nyholm.psr7.factory', '@nyholm.psr7.factory' ]
+
+  Symfony\Bridge\PsrHttpMessage\HttpMessageFactoryInterface: '@json-api.factory.psr_http'
+
+  Slick\JsonApiBundle\EventSubscriber\KernelRequestListener:
+    arguments:
+      - '@json-api.document.decoder'
+      - '@json-api.document.http.message.parser'
+      - '@json-api.factory.psr_http'
+    tags:
+      - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
