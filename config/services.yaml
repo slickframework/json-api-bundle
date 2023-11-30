@@ -11,6 +11,9 @@ services:
 
   json-api.document.factory:
     class: Slick\JSONAPI\Document\Factory\DefaultFactory
+    arguments:
+      - '@json-api.schema.discover'
+
   Slick\JSONAPI\Document\DocumentFactory: '@json-api.document.factory'
 
   json-api.version:
