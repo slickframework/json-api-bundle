@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [v0.2.0] 2024-10-11
+### Changes
+- Upgrades to symfony 7.x
+
 ## [v0.1.2] 2023-11-30
 ### Fixes
 - Dependency configuration for default document factory
