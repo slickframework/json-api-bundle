@@ -8,6 +8,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [v0.3.0] 2024-11-21
+### Changes
+- Updates dependencies in composer.lock to improve stability.
+- Adds sparse field handling to the KernelRequestListener to better adhere to the
+  JSON:API specification, allowing for the encoding of documents with requested sparse fields
+
 ## [v0.2.2] 2024-10-11
 ### Changes
 - Upgrades to symfony 7.x
