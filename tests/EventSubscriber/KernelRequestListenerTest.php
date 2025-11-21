@@ -12,6 +12,7 @@ use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
 use Slick\JSONAPI\Document;
 use Slick\JSONAPI\Document\DocumentDecoder;
+use Slick\JSONAPI\Document\Factory\SparseFields;
 use Slick\JsonApiBundle\EventSubscriber\KernelRequestListener;
 use Symfony\Bridge\PsrHttpMessage\HttpMessageFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,6 +32,7 @@ class KernelRequestListenerTest extends TestCase
     public function setUp(): void
     {
         $this->decoder = $this->createMock(DocumentDecoder::class);
+        $this->encoder = $this->createMock(Document\DocumentEncoder::class);
         $this->parser = $this->createStub(Document\HttpMessageParserInterface::class);
         $this->messageFactory = $this->createStub(HttpMessageFactoryInterface::class);
         $this->document = $this->createStub(Document::class);
@@ -43,9 +45,12 @@ class KernelRequestListenerTest extends TestCase
         $this->parser->method('parse')->willReturn($this->document);
         $this->decoder->method('setRequestedDocument')->with($this->document)->willReturnSelf();
 
+        $this->encoder->method('withSparseFields')->with($this->isInstanceOf(SparseFields::class))->willReturnSelf();
+
 
         $this->listener = new KernelRequestListener(
             $this->decoder,
+            $this->encoder,
             $this->parser,
             $this->messageFactory
         );
@@ -72,6 +77,7 @@ class KernelRequestListenerTest extends TestCase
         $event->method('getRequest')->willReturn($this->request);
 
         $this->decoder->expects($this->once())->method('setRequestedDocument')->with($this->document);
+        $this->encoder->expects($this->once())->method('withSparseFields')->with($this->isInstanceOf(SparseFields::class));
         $this->listener->onKernelRequest($event);
 
     }

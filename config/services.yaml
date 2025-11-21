@@ -68,6 +68,7 @@ services:
   Slick\JsonApiBundle\EventSubscriber\KernelRequestListener:
     arguments:
       - '@json-api.document.decoder'
+      - '@json-api.document.encoder'
       - '@json-api.document.http.message.parser'
       - '@json-api.factory.psr_http'
     tags:

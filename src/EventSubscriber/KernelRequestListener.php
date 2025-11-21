@@ -12,6 +12,8 @@ declare(strict_types=1);
 namespace Slick\JsonApiBundle\EventSubscriber;
 
 use Slick\JSONAPI\Document\DocumentDecoder;
+use Slick\JSONAPI\Document\DocumentEncoder;
+use Slick\JSONAPI\Document\Factory\SparseFields;
 use Slick\JSONAPI\Document\HttpMessageParserInterface;
 use Symfony\Bridge\PsrHttpMessage\HttpMessageFactoryInterface;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
@@ -28,12 +30,14 @@ final class KernelRequestListener
      * Creates a KernelRequestListener
      *
      * @param DocumentDecoder $decoder
+     * @param DocumentEncoder $encoder
      * @param HttpMessageParserInterface $parser
      * @param HttpMessageFactoryInterface $messageFactory
      */
     public function __construct(
-        private readonly DocumentDecoder $decoder,
-        private readonly HttpMessageParserInterface $parser,
+        private readonly DocumentDecoder             $decoder,
+        private readonly DocumentEncoder             $encoder,
+        private readonly HttpMessageParserInterface  $parser,
         private readonly HttpMessageFactoryInterface $messageFactory
     ) {
     }
@@ -49,6 +53,7 @@ final class KernelRequestListener
         $request = $this->messageFactory->createRequest($event->getRequest());
         if (str_contains($request->getHeaderLine('content-type'), 'application/vnd.api+json')) {
             $this->decoder->setRequestedDocument($this->parser->parse($request));
+            $this->encoder->withSparseFields(new SparseFields($request));
         }
     }
 }
