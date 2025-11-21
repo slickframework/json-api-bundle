@@ -1,0 +1,1 @@
+{"version":2,"defects":[],"times":{"Slick\\JsonApiBundle\\Tests\\EventSubscriber\\KernelRequestListenerTest::testItsInitializable":0.004,"Slick\\JsonApiBundle\\Tests\\EventSubscriber\\KernelRequestListenerTest::testItHandlerKernelRequestEvent":0.005}}
