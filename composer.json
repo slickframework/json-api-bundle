@@ -6,9 +6,9 @@
   "version": "v0.3.0",
   "require": {
     "php": ">=8.2",
-    "symfony/framework-bundle": "^7",
+    "symfony/framework-bundle": "^7|^8",
     "slick/json-api": "^1.2",
-    "symfony/psr-http-message-bridge": "^7",
+    "symfony/psr-http-message-bridge": "^7|^8",
     "nyholm/psr7": "^1.8"
   },
   "autoload": {
